@@ -128,7 +128,8 @@ class InterbankNode:
         except Exception:
             raise
         dc_txn_id = transfer.transfer_id
-        if self.dc_sender is not None:
+        # Same-bank sends stay on the ledger. Do not pay your own firm.
+        if self.dc_sender is not None and normalize_bank(payee.bank) != self.bank:
             dc_txn_id = await self.dc_sender.pay_firm(
                 payee.bank, amount_cents, transfer.memo
             )

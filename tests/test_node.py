@@ -88,3 +88,30 @@ async def test_search_then_click_then_send():
     assert ledgers["JDSV"] == 2_500
     assert ledgers["DRB-MDBZ"] == 12_500
     assert dc.payments[0][0] == "DRB"
+
+
+async def test_same_bank_send_skips_firm_payment():
+    hub = InMemoryHub()
+    dc = FakeDc()
+    vdrb = InterbankNode("VDRB", secret="s", hub=hub, ticker_prefix="", dc_sender=dc)
+    ledgers = {"JDSV": 5_000, "INOV": 0}
+
+    @vdrb.on_lookup
+    async def lookup(query: str) -> list[Payee]:
+        if query.upper() == "INOV":
+            return [Payee(bank="VDRB", account="INOV", name="Inov8 test")]
+        return []
+
+    @vdrb.on_debit
+    async def debit(transfer) -> None:
+        ledgers[transfer.from_account] -= transfer.amount_cents
+
+    @vdrb.on_credit
+    async def credit(transfer) -> None:
+        ledgers[transfer.to_account] += transfer.amount_cents
+
+    payee = (await vdrb.find("INOV"))[0]
+    await vdrb.send(from_account="JDSV", payee=payee, amount=100, memo="TEST")
+    assert ledgers["JDSV"] == 4_900
+    assert ledgers["INOV"] == 100
+    assert dc.payments == []
