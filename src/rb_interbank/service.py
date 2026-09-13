@@ -17,7 +17,7 @@ WEBSITE = Path(__file__).resolve().parents[2] / "website"
 
 def create_app() -> web.Application:
     app = web.Application()
-    peers_raw = os.getenv("RB_PEERS", "").strip()
+    peers_raw = os.getenv("RB_PEERS", "").strip().strip("'\"")
     if peers_raw:
         app["hub"] = PeerHub(json.loads(peers_raw))
     else:
