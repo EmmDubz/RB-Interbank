@@ -1,0 +1,13 @@
+.cursor
+.git
+.pytest_cache
+.venv
+__pycache__
+*.pyc
+tests
+examples
+deploy
+design-system
+openapi
+*.md
+!README.md

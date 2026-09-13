@@ -15,7 +15,7 @@ Those stay on the bank hosts (DRB Windows/Oracle bot, VDRB Oracle bot). The hub 
 - A **verifier** for the bank’s signing secret (HMAC of the secret, or the bank’s public key)
 - Transfer ids and memos (`RB:{id}`), not customer balances
 
-Generate secrets with `secrets.token_urlsafe(48)`. Show once in the join pack. Store `/etc/rb-interbank/hub.env` at mode `0600`. Do not put usable keys in the database “for convenience.”
+Generate secrets with `secrets.token_urlsafe(48)`. Show once in the join pack. Store `/home/matt/services/web/rb-interbank/.env` at mode `0600`. Do not put usable keys in the database “for convenience.”
 
 ## “Only usable when everything is correct”
 

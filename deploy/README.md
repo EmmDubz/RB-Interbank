@@ -1,6 +1,8 @@
 # Deploy on frodvegasnet
 
-Oracle (`150.230.117.88`) already serves `redmontgroup.org` and `vdrb.redmontgroup.org` with nginx + Let’s Encrypt. That box is **not** on this Tailscale tailnet. `frodvegasnet` (`100.108.123.23`) is. Do not publish the Tailscale IP.
+Oracle (`150.230.117.88`) already serves `redmontgroup.org` and `vdrb.redmontgroup.org` with nginx + Let’s Encrypt. That box is **not** on this Tailscale tailnet. `frodvegasnet` is. Do not publish the Tailscale IP.
+
+Matt has no passwordless sudo. The live stack is Docker Compose under `/home/matt/services`. The hub follows that, not `/opt` + a system unit.
 
 ## DNS
 
@@ -11,39 +13,31 @@ Use names, not IPs:
 | `inov8.redmontgroup.org` | This site |
 | `interbank.redmontgroup.org` | Hub API (same process for now) |
 
-In Cloudflare (or wherever `redmontgroup.org` is hosted), add two **CNAME** records to the tunnel hostname `TUNNEL_ID.cfargotunnel.com`. Proxy on (orange cloud) if the zone is on Cloudflare.
+A `cloudflare_tunnel` container is already running from `/home/matt/services/tunnels` (token in that compose `.env`). Add two **Public Hostnames** on that existing tunnel in Cloudflare Zero Trust:
 
-## Cloudflare Tunnel
+| Public hostname | Type | URL |
+|---|---|---|
+| `inov8.redmontgroup.org` | HTTP | `http://rb-interbank:8787` |
+| `interbank.redmontgroup.org` | HTTP | `http://rb-interbank:8787` |
 
-The origin binds `127.0.0.1:8787`. Nothing else should listen publicly.
+The hub container joins `tunnels_default` so cloudflared can resolve `rb-interbank`. Also add proxied CNAMEs in the `redmontgroup.org` zone if Zero Trust does not create them.
 
-```bash
-cloudflared tunnel login
-cloudflared tunnel create inov8
-cloudflared tunnel route dns inov8 inov8.redmontgroup.org
-cloudflared tunnel route dns inov8 interbank.redmontgroup.org
-# edit deploy/cloudflared-config.yml with the tunnel id
-sudo cp deploy/cloudflared-config.yml /etc/cloudflared/config.yml
-sudo systemctl enable --now cloudflared
-```
-
-You do **not** need to open ports on the Linux firewall or Oracle security list for this app.
+Do not point hostnames at `127.0.0.1` from inside the tunnel container — that is the tunnel container itself.
 
 ## App
 
 ```bash
-sudo useradd -r -s /usr/sbin/nologin rbinterbank
-sudo git clone https://github.com/EmmDubz/RB-Interbank.git /opt/rb-interbank
-sudo python3 -m venv /opt/rb-interbank/.venv
-sudo /opt/rb-interbank/.venv/bin/pip install -e /opt/rb-interbank
-sudo mkdir -p /etc/rb-interbank /opt/rb-interbank/data
-sudo cp /opt/rb-interbank/deploy/hub.env.example /etc/rb-interbank/hub.env
-sudo chmod 600 /etc/rb-interbank/hub.env
-sudo cp /opt/rb-interbank/deploy/rb-interbank.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable --now rb-interbank
+git clone https://github.com/EmmDubz/RB-Interbank.git /home/matt/services/web/rb-interbank
+python3 -c "import secrets; print(secrets.token_urlsafe(48))"
+# write /home/matt/services/web/rb-interbank/.env (mode 0600)
+# add the rb-interbank service to /home/matt/services/web/docker-compose.yml
+cd /home/matt/services/web && docker compose up -d --build rb-interbank
 ```
+
+Host publish is `127.0.0.1:8787` only. Inside the container the app binds `0.0.0.0:8787`.
+
+`RB_PEERS` stays empty until DRB and VDRB expose `/rb/v1`. Empty peers = in-memory hub + the public site.
 
 ## What this agent could not do from Cursor
 
-Tailscale SSH from this Windows user is denied by tailnet policy (`matth` is not an allowed SSH user on `frodvegasnet`). Approve SSH for this machine, or run the commands above on the box yourself.
+Cloudflare Zero Trust hostname/DNS writes. Bank `.env` secrets and deploying the local DRB/VDRB adapter code onto the live bots.
