@@ -4,10 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Inov8</title>
-    <meta
-      name="description"
-      content="Inov8 builds software for DemocracyCraft banks. RB Interbank is a free rail: search a player, pick an account, send RMD."
-    />
+    <meta name="description" content="Inov8" />
+    <link rel="icon" href="/assets/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -17,8 +16,8 @@
           ><img src="/assets/inov8-logo.png" width="148" height="26" alt="Inov8"
         /></a>
         <nav aria-label="Primary">
-          <a href="#product">RB Interbank</a>
-          <a href="#banks">For banks</a>
+          <a href="#product">Product</a>
+          <a href="#banks">Banks</a>
         </nav>
         <a class="btn btn-sm" href="https://github.com/EmmDubz/RB-Interbank">Source</a>
       </div>
@@ -27,17 +26,13 @@
     <main>
       <section class="hero">
         <div class="wrap">
-          <p class="eyebrow">Software for Redmont banks</p>
-          <h1>Send RMD to a name, not a routing number.</h1>
-          <p class="lead">
-            RB Interbank is a free rail between member banks. You keep your
-            Discord bot, your ledger, and your Treasury key. Inov8 only moves
-            the message.
-          </p>
+          <p class="eyebrow">[Eyebrow]</p>
+          <h1>[Headline]</h1>
+          <p class="lead">[Intro — a short paragraph in your words.]</p>
           <div class="actions">
-            <a class="btn" href="#banks">Join the rail</a>
+            <a class="btn" href="#banks">[Primary button]</a>
             <a class="btn btn-ghost" href="https://github.com/EmmDubz/RB-Interbank"
-              >Read the protocol</a
+              >[Secondary button]</a
             >
           </div>
         </div>
@@ -45,60 +40,55 @@
 
       <section id="product">
         <div class="wrap">
-          <h2>How a payment works</h2>
+          <h2>[How it works heading]</h2>
           <ol class="steps">
             <li>
               <span>1</span>
               <div>
-                <strong>Search</strong>
-                <p>Type a ticker, <code>DRB:MDBZ</code>, or a Minecraft name.</p>
+                <strong>[Step 1 title]</strong>
+                <p>[Step 1 copy]</p>
               </div>
             </li>
             <li>
               <span>2</span>
               <div>
-                <strong>Pick</strong>
-                <p>Every matching account at every member bank is listed. Click one.</p>
+                <strong>[Step 2 title]</strong>
+                <p>[Step 2 copy]</p>
               </div>
             </li>
             <li>
               <span>3</span>
               <div>
-                <strong>Settle</strong>
-                <p>The sending bank pays the other firm in-game. Credit happens after cash lands.</p>
+                <strong>[Step 3 title]</strong>
+                <p>[Step 3 copy]</p>
               </div>
             </li>
           </ol>
 
           <table class="compare">
-            <caption>RB Interbank compared with Qash</caption>
+            <caption>[Comparison heading]</caption>
             <thead>
               <tr>
                 <th></th>
-                <th scope="col">RB Interbank</th>
-                <th scope="col">Qash</th>
+                <th scope="col">[Column A]</th>
+                <th scope="col">[Column B]</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">Address</th>
-                <td>Bank and ticker, or a player name</td>
-                <td>14-character routing number</td>
+                <th scope="row">[Row 1]</th>
+                <td>[A]</td>
+                <td>[B]</td>
               </tr>
               <tr>
-                <th scope="row">Fee between members</th>
-                <td>$0</td>
-                <td>Charged by the rail</td>
+                <th scope="row">[Row 2]</th>
+                <td>[A]</td>
+                <td>[B]</td>
               </tr>
               <tr>
-                <th scope="row">Settlement</th>
-                <td>Firm to firm, when you send</td>
-                <td>Prefunded clearing house</td>
-              </tr>
-              <tr>
-                <th scope="row">Who holds balances</th>
-                <td>Each bank, on its own server</td>
-                <td>The network plus the bank</td>
+                <th scope="row">[Row 3]</th>
+                <td>[A]</td>
+                <td>[B]</td>
               </tr>
             </tbody>
           </table>
@@ -108,25 +98,22 @@
       <section id="banks">
         <div class="wrap split">
           <div>
-            <h2>Three functions and you are on.</h2>
-            <p>
-              Install the Python package (or hit the same HTTP routes). Keep
-              Qash as a second rail for banks that are not members yet.
-            </p>
-            <p class="members">Founding members: De Ruyter Bank and Vendeka Redmont Bank.</p>
+            <h2>[Banks heading]</h2>
+            <p>[Banks intro]</p>
+            <p class="members">[Members line]</p>
           </div>
           <ol class="hooks">
             <li>
               <code>lookup</code>
-              <p>Return matching local accounts for a search string.</p>
+              <p>[What lookup does]</p>
             </li>
             <li>
               <code>debit</code>
-              <p>Take the amount off the sending customer. Idempotent.</p>
+              <p>[What debit does]</p>
             </li>
             <li>
               <code>credit</code>
-              <p>Pay the receiving customer only after the firm payment is matched.</p>
+              <p>[What credit does]</p>
             </li>
           </ol>
         </div>
@@ -135,8 +122,8 @@
 
     <footer>
       <div class="wrap bar">
-        <span>Inov8 Software Solutions · Redmont</span>
-        <a href="https://github.com/EmmDubz/RB-Interbank">RB Interbank on GitHub</a>
+        <span>[Footer]</span>
+        <a href="https://github.com/EmmDubz/RB-Interbank">GitHub</a>
       </div>
     </footer>
   </body>

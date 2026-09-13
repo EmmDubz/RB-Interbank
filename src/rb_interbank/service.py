@@ -33,6 +33,9 @@ def create_app() -> web.Application:
         assets = WEBSITE / "assets"
         if assets.is_dir():
             app.router.add_static("/assets", assets)
+        favicon = assets / "favicon.png"
+        if favicon.is_file():
+            app.router.add_get("/favicon.ico", _favicon)
     return app
 
 
@@ -42,6 +45,10 @@ async def _index(request: web.Request) -> web.FileResponse:
 
 async def _styles(_: web.Request) -> web.FileResponse:
     return web.FileResponse(WEBSITE / "styles.css")
+
+
+async def _favicon(_: web.Request) -> web.FileResponse:
+    return web.FileResponse(WEBSITE / "assets" / "favicon.png")
 
 
 async def _health(_: web.Request) -> web.Response:

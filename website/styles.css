@@ -321,13 +321,13 @@ footer .bar {
   }
 
   .compare td:first-of-type::before {
-    content: "RB Interbank — ";
+    content: "A — ";
     font-weight: 600;
     color: var(--ink);
   }
 
   .compare td:last-of-type::before {
-    content: "Qash — ";
+    content: "B — ";
     font-weight: 600;
     color: var(--ink);
   }
