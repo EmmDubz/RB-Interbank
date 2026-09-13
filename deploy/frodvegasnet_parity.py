@@ -147,7 +147,9 @@ def ensure_compose() -> None:
         print("bots compose already mounts rb_interbank")
 
     web = WEB_COMPOSE.read_text(encoding="utf-8")
-    if re.search(r"rb-interbank:[\s\S]*bots_default", web):
+    start = web.find("rb-interbank:")
+    chunk = web[start : start + 700] if start >= 0 else ""
+    if "- bots_default" in chunk:
         print("web compose already on bots_default")
         return
     old = """    networks:
