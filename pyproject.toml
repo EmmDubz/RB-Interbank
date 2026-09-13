@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "rb-interbank"
+version = "0.1.0"
+description = "Free DemocracyCraft interbank rail — three hooks and you are on the network."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Inov8 Software Solutions" }]
+dependencies = [
+    "aiohttp>=3.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24"]
+
+[project.urls]
+Repository = "https://github.com/EmmDubz/RB-Interbank"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["rb_interbank"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["src"]

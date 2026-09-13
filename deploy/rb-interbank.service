@@ -1,0 +1,19 @@
+[Unit]
+Description=RB Interbank hub and Inov8 site
+After=network.target
+
+[Service]
+Type=simple
+User=rbinterbank
+WorkingDirectory=/opt/rb-interbank
+EnvironmentFile=-/etc/rb-interbank/hub.env
+ExecStart=/opt/rb-interbank/.venv/bin/python -m rb_interbank.service
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/rb-interbank/data
+
+[Install]
+WantedBy=multi-user.target

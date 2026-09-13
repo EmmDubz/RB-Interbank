@@ -1,0 +1,122 @@
+openapi: 3.1.0
+info:
+  title: RB Interbank
+  version: 0.1.0
+  description: |
+    Three signed endpoints on the bank. The hub fans out search and
+    coordinates settlement. Python banks should use the SDK instead of
+    writing this by hand.
+servers:
+  - url: https://your-bank.example/rb/v1
+paths:
+  /lookup:
+    post:
+      summary: Search this bank for payees
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [query]
+              properties:
+                query:
+                  type: string
+                  examples: [MDBZ, DRB-MDBZ, Matth]
+      responses:
+        "200":
+          description: Zero or more clickable payees
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payees:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Payee"
+  /debit:
+    post:
+      summary: Take funds off the sending customer (idempotent)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transfer]
+              properties:
+                transfer:
+                  $ref: "#/components/schemas/Transfer"
+      responses:
+        "200":
+          description: Debit applied or already applied
+  /credit:
+    post:
+      summary: Release held funds onto the receiving customer (idempotent)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [transfer]
+              properties:
+                transfer:
+                  $ref: "#/components/schemas/Transfer"
+      responses:
+        "200":
+          description: Credit applied or already applied
+components:
+  schemas:
+    Payee:
+      type: object
+      required: [bank, account, name]
+      properties:
+        bank:
+          type: string
+          examples: [DRB]
+        account:
+          type: string
+          examples: [DRB-MDBZ]
+        display_account:
+          type: string
+          examples: [MDBZ]
+        name:
+          type: string
+        account_type:
+          type: string
+        match_reason:
+          type: string
+          enum: [ticker, alias, minecraft, discord, name]
+        verified:
+          type: boolean
+    Transfer:
+      type: object
+      required:
+        [transfer_id, from_bank, from_account, to_bank, to_account, amount_cents]
+      properties:
+        transfer_id:
+          type: string
+        from_bank:
+          type: string
+        from_account:
+          type: string
+        to_bank:
+          type: string
+        to_account:
+          type: string
+        amount_cents:
+          type: integer
+        memo:
+          type: string
+        dc_txn_id:
+          type: string
+  securitySchemes:
+    rbSignature:
+      type: apiKey
+      in: header
+      name: X-RB-Signature
+      description: t=<unix>,v1=<hmac-sha256 of timestamp + '.' + raw body>
+security:
+  - rbSignature: []

@@ -1,0 +1,16 @@
+# Copy to /etc/cloudflared/config.yml on frodvegasnet after:
+#   cloudflared tunnel create inov8
+#   cloudflared tunnel route dns inov8 inov8.redmontgroup.org
+#   cloudflared tunnel route dns inov8 interbank.redmontgroup.org
+#
+# Then point both hostnames at this tunnel. Do not publish 100.x Tailscale IPs.
+
+tunnel: REPLACE_WITH_TUNNEL_ID
+credentials-file: /etc/cloudflared/REPLACE_WITH_TUNNEL_ID.json
+
+ingress:
+  - hostname: inov8.redmontgroup.org
+    service: http://127.0.0.1:8787
+  - hostname: interbank.redmontgroup.org
+    service: http://127.0.0.1:8787
+  - service: http_status:404

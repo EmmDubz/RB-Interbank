@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inov8 — software for Redmont banks</title>
+    <meta
+      name="description"
+      content="Inov8 builds open banking rails for DemocracyCraft. RB Interbank is a free alternative to Qash: search a player, pick a bank, send RMD."
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/"
+          ><img src="/assets/inov8-logo.png" width="160" height="28" alt="Inov8"
+        /></a>
+        <nav aria-label="Primary">
+          <a href="#interbank">RB Interbank</a>
+          <a href="#join">For banks</a>
+          <a href="#security">Security</a>
+        </nav>
+        <a class="btn" href="#join">Join the rail</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <h1>Bank software that stays on your ledger.</h1>
+          <p>
+            Inov8 builds the rails between DemocracyCraft banks. You keep the
+            Discord bot, the balances, and the Treasury key. We handle search,
+            settlement messages, and a public protocol.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#join">Join RB Interbank</a>
+            <a class="btn btn-ghost" href="https://github.com/EmmDubz/RB-Interbank"
+              >Read the protocol</a
+            >
+          </div>
+          <div class="proof" aria-label="Product facts">
+            <div class="stat">
+              <strong>$0</strong>
+              <span>Network fee between members</span>
+            </div>
+            <div class="stat">
+              <strong>3 hooks</strong>
+              <span>Lookup, debit, credit. That is the integration.</span>
+            </div>
+            <div class="stat">
+              <strong>Bank:ticker</strong>
+              <span>Pay DRB:MDBZ — not a 14-character routing number.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="interbank">
+        <div class="wrap">
+          <h2>RB Interbank</h2>
+          <p>
+            A free clearing-plus-directory rail. Customers search a Minecraft
+            name or ticker, see every matching account across member banks, and
+            click one. Cash moves firm-to-firm through the DemocracyCraft
+            Economy API. No prefunded Qash settlement account.
+          </p>
+          <div class="grid-2">
+            <article class="card">
+              <h3>For customers</h3>
+              <p>
+                In the bank Discord app: Transfer → Interbank. Type
+                <code>MDBZ</code>, <code>DRB:MDBZ</code>, or a player name.
+                Pick the row. Confirm. The destination bank only credits after
+                real RMD arrives.
+              </p>
+            </article>
+            <article class="card">
+              <h3>For bank developers</h3>
+              <p>
+                Install the Python package, implement three functions, mount
+                one HTTP route on the aiohttp server you already run. Qash can
+                stay as the dual rail for banks that are not on RB yet.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="join">
+        <div class="wrap">
+          <h2>How a bank joins</h2>
+          <div class="grid-2">
+            <article class="card">
+              <h3>You receive a settings pack</h3>
+              <ol>
+                <li>Bank code, e.g. <code>DRB</code></li>
+                <li>Ticker prefix, e.g. <code>DRB-</code> or none</li>
+                <li>Hub URL and a one-time signing secret</li>
+                <li>Your public callback, e.g. <code>/rb/v1</code></li>
+              </ol>
+            </article>
+            <article class="card">
+              <h3>You already have the rest</h3>
+              <ol>
+                <li>In-game firm name (<code>DRB</code>, <code>VDRB</code>)</li>
+                <li>A BUSINESS Treasury key — never sent to Inov8</li>
+                <li>The same Discord transfer UI, plus an Interbank button</li>
+              </ol>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="security">
+        <div class="wrap">
+          <h2>Security model</h2>
+          <ul class="security-list">
+            <li>
+              <strong>No customer balances on this host.</strong>
+              Ledgers stay in each bank’s database.
+            </li>
+            <li>
+              <strong>No DemocracyCraft API keys on this host.</strong>
+              Firm tokens never leave the bank server. The hub cannot spend
+              RMD.
+            </li>
+            <li>
+              <strong>Signing secrets are shown once.</strong>
+              The hub stores a verifier, not a reusable plaintext key in git
+              or the website.
+            </li>
+            <li>
+              <strong>Public DNS, private origin.</strong>
+              <code>inov8.redmontgroup.org</code> and
+              <code>interbank.redmontgroup.org</code> via Cloudflare Tunnel.
+              The Tailscale IP is not published.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        Inov8 Software Solutions · Redmont ·
+        <a href="https://github.com/EmmDubz/RB-Interbank">Source</a>
+      </div>
+    </footer>
+  </body>
+</html>
